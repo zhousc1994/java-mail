@@ -1,0 +1,26 @@
+1.创建json文件
+cd /opt/
+vim testvkm.json
+填写配置信息
+
+2.创建vm
+vmadm create -f testvkm.json
+
+vmadm list
+
+查看vnc的映射端口号
+vmadm info  34d84b16-437d-e301-c8fb-9bdca6837c48  |json vnc
+3.使用VNC查询镜像信息
+
+查找vm对应文件系统的位置
+zfs list
+查找对应uuid对应文件系统位置
+cd /zones/34d84b16-437d-e301-c8fb-9bdca6837c48/
+
+设置启动ios
+vmadm boot 34d84b16-437d-e301-c8fb-9bdca6837c48  order=cd,once=d cdrom=/ubuntu-18.04.4-live-server-amd64.iso,ide
+
+设置vm的网络
+cat add_nic.json | vmadm update 54f1cc77-68f1-42ab-acac-5c4f64f5d6e0
+关闭vm，用-f强制删除
+vmadm stop 816bd12e-a09c-ece5-95cb-dfc4b114a6c6 -f
